@@ -12,6 +12,11 @@ class bancoDeDados():
                     nome text,
                     email text type UNIQUE,
                     matricula text type UNIQUE,
-                    senha text)""")
+                    senha text,
+                    AV1 double null,
+                    AV2 double null,
+                    AV3 double null,
+                    AVD double null,
+                    AVDS double null)""")
         self.conexao.commit()
         c.close()

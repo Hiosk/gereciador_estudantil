@@ -1,5 +1,6 @@
 from usuarios import Alunos
 from tkinter import *
+from tkinter import ttk
 import tkinter as tk
     
 
@@ -26,6 +27,7 @@ class Index(tk.Frame):
         self.container2 = Frame(master)
         self.container2["pady"] = 10
         self.container2.pack()
+
         tk.Label(self.container, text="Seja bem vindo ao gerenciador estudantil", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", padx=20, pady=5)
         tk.Button(self, text="Painel de controle",
                   command=lambda: master.switch_frame(PainelCRUD)).pack(pady=10, padx=10, side=LEFT)
@@ -38,8 +40,32 @@ class PortalAluno(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.fonte = ("Verdana", "8")
-        user = Alunos()
-        user.selectAllAlunos
+
+        root = tk.Tk()
+        columns = ('#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8')
+
+        tree = ttk.Treeview(root, columns=columns, show='headings')
+        tree.heading('#1', text='Matrícula')
+        tree.heading('#2', text='Nome')
+        tree.heading('#3', text='AV1')
+        tree.heading('#4', text='AV2')
+        tree.heading('#5', text='AV3')
+        tree.heading('#6', text='AVD')
+        tree.heading('#7', text='AVDS')
+        tree.heading('#8', text='Média')
+        aluno = Alunos()
+        alunos = []
+        for n in aluno.selectAllAlunos():
+            if n['AV1'] and n['AV2'] and n['AVD']:
+                media = round((n['AV1'] + n['AV2'] + n['AVD'])/3, 2)
+                alunos.append((n['matricula'], n['nome'], n['AV1'], n['AV2'], n['AV3'], n['AVD'], n['AVDS'], media))
+            else:
+                alunos.append((n['matricula'], n['nome'], n['AV1'], n['AV2'], n['AV3'], n['AVD'], n['AVDS']))
+        for contact in alunos:
+            tree.insert('', tk.END, values=contact)
+
+        tree.pack()
+        
 
 class PainelProfessor(tk.Frame):
     def __init__(self, master):

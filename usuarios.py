@@ -20,9 +20,20 @@ class Alunos(object):
         try:
             c = database.conexao.cursor()
             c.execute("select * from alunos")
-            
+            alunos = []
+            for linha in c:
+                x = {
+                    "matricula": linha[3],
+                    "nome": linha[1],
+                    "AV1" : linha[5],
+                    "AV2" : linha[6],
+                    "AV3" : linha[7],
+                    "AVD" : linha[8],
+                    "AVDS" : linha[9]
+                }
+                alunos.append(x)
             c.close()
-            return "Busca feita com sucesso!"
+            return alunos
         except:
             return "Ocorreu um erro na busca do usuário"
     

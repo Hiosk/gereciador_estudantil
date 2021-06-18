@@ -8,6 +8,7 @@ class Aplicacao(tk.Tk):
     def __init__(self, master=None):
         tk.Tk.__init__(self)
         self._frame = None
+        self.attributes('-fullscreen', True)
         self.switch_frame(Index)
 
 
@@ -28,7 +29,7 @@ class Index(tk.Frame):
         self.container2["pady"] = 10
         self.container2.pack()
 
-        tk.Label(self.container, text="Seja bem vindo ao gerenciador estudantil", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", padx=20, pady=5)
+        tk.Label(self.container, text="Universidade Estácio de Sá", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", padx=20, pady=5)
         tk.Button(self, text="Painel de controle",
                   command=lambda: master.switch_frame(PainelCRUD)).pack(pady=10, padx=10, side=LEFT)
         tk.Button(self, text="Painel do professor",
@@ -40,11 +41,13 @@ class PortalAluno(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.fonte = ("Verdana", "8")
-
-        root = tk.Tk()
         columns = ('#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8')
 
-        tree = ttk.Treeview(root, columns=columns, show='headings')
+        self.container1 = Frame(master)
+        self.container1["pady"] = 10
+        self.container1.pack()
+
+        tree = ttk.Treeview(self.container1, columns=columns, show='headings')
         tree.heading('#1', text='Matrícula')
         tree.heading('#2', text='Nome')
         tree.heading('#3', text='AV1')
@@ -66,6 +69,10 @@ class PortalAluno(tk.Frame):
 
         tree.pack()
         
+        self.bntInsert = Button(self, text="Fechar",
+        font=self.fonte, width=12)
+        self.bntInsert["command"] = self.master.destroy
+        self.bntInsert.pack (side=BOTTOM)
 
 class PainelProfessor(tk.Frame):
     def __init__(self, master):
@@ -201,10 +208,10 @@ class PainelProfessor(tk.Frame):
         self.bntInsert["command"] = self.atualizarNotas
         self.bntInsert.pack (side=LEFT)
 
-        self.bntInsert = Button(self.container12, text="Fechar",
+        self.bntInsert = Button(self, text="Fechar",
         font=self.fonte, width=12)
         self.bntInsert["command"] = self.master.destroy
-        self.bntInsert.pack (side=LEFT)
+        self.bntInsert.pack (side=BOTTOM)
 
         self.lblmsg = Label(self.container12, text="")
         self.lblmsg["font"] = ("Verdana", "9", "italic")
@@ -346,6 +353,11 @@ class PainelCRUD(tk.Frame):
         self.lblmsg = Label(self.container9, text="")
         self.lblmsg["font"] = ("Verdana", "9", "italic")
         self.lblmsg.pack()
+
+        self.bntInsert = Button(self, text="Fechar",
+        font=self.fonte, width=12)
+        self.bntInsert["command"] = self.master.destroy
+        self.bntInsert.pack (side=BOTTOM)
     def inserirUsuario(self):
         user = Alunos()
         user.nome = self.txtnome.get()
